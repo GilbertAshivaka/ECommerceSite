@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nucleus - Centralize Your Workflow</title>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #4ade80;
+            --accent: #f472b6;
+            --yellow: #facc15;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background-color: var(--dark);
+            position: relative;
+        }
+        
+        .atom {
+            position: relative;
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+        
+        .orbit {
+            position: absolute;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 1px solid white;
+            border-radius: 50%;
+            animation: spin 5s linear infinite;
+        }
+        
+        .orbit:nth-child(1) {
+            transform: rotate(45deg);
+        }
+        
+        .orbit:nth-child(2) {
+            transform: rotate(-30deg);
+        }
+        
+        .orbit:nth-child(3) {
+            transform: rotate(80deg);
+        }
+        
+        .electron {
+            position: absolute;
+            width: 0.25rem;
+            height: 0.25rem;
+            border-radius: 50%;
+        }
+        
+        .electron:nth-child(4) {
+            background-color: var(--primary);
+            top: 50%;
+            left: 0;
+            transform: translate(-50%, -50%);
+        }
+        
+        .electron:nth-child(5) {
+            background-color: var(--secondary);
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .electron:nth-child(6) {
+            background-color: var(--accent);
+            bottom: 0;
+            right: 0;
+            transform: translate(50%, 50%);
+        }
+        
+        .nucleus {
+            position: absolute;
+            width: 0.5rem;
+            height: 0.5rem;
+            background-color: var(--primary);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        
+        .hero {
+            background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .features {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #dbeafe;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-icon.tasks {
+            background-color: #dbeafe;
+        }
+        
+        .feature-icon.ai {
+            background-color: #dcfce7;
+        }
+        
+        .feature-icon.chat {
+            background-color: #fae8ff;
+        }
+        
+        .feature-icon.sprints {
+            background-color: #fef3c7;
+        }
+        
+        .feature-icon.time {
+            background-color: #e0f2fe;
+        }
+        
+        .feature-icon.docs {
+            background-color: #f5f3ff;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+        }
+        
+        .showcase {
+            padding: 4rem 2rem;
+            background-color: var(--dark);
+            color: white;
+        }
+        
+        .showcase-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+        
+        .showcase-text {
+            flex: 1;
+        }
+        
+        .showcase-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .showcase-text p {
+            margin-bottom: 2rem;
+            color: #cbd5e1;
+        }
+        
+        .showcase-img {
+            flex: 1;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .showcase-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .integrations {
+            padding: 4rem 2rem;
+            background-color: #f8fafc;
+        }
+        
+        .integrations-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .integration-logos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .integration-logo {
+            width: 120px;
+            height: 60px;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: grayscale(100%);
+            transition: all 0.3s;
+        }
+        
+        .integration-logo:hover {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+        
+        .pricing {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .pricing-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pricing-card.popular {
+            border: 2px solid var(--primary);
+            position: relative;
+        }
+        
+        .popular-tag {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .pricing-card .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+        
+        .pricing-card .price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--gray);
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+        
+        .pricing-features li {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        
+        .pricing-features li::before {
+            content: "✓";
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .pricing-card .btn {
+            width: 100%;
+            text-align: center;
+        }
+        
+        .testimonials {
+            padding: 4rem 2rem;
+            background-color: #f0f9ff;
+        }
+        
+        .testimonials-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .testimonial-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+            position: relative;
+        }
+        
+        .testimonial-text::before {
+            content: """;
+            font-size: 4rem;
+            color: #e5e7eb;
+            position: absolute;
+            top: -1.5rem;
+            left: -1rem;
+            z-index: 0;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--gray);
+        }
+        
+        .testimonial-info h4 {
+            margin-bottom: 0.25rem;
+        }
+        
+        .testimonial-info p {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+        
+        .cta {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), #2563eb);
+            color: white;
+        }
+        
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta p {
+            margin-bottom: 2rem;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .cta .btn {
+            background-color: white;
+            color: var(--primary);
+            padding: 0.75rem 2rem;
+            font-size: 1.125rem;
+        }
+        
+        .cta .btn:hover {
+            background-color: rgba(255,255,255,0.9);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 4rem;
+        }
+        
+        .footer-brand p {
+            color: #cbd5e1;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .footer-links h4 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding: 2rem;
+            background-color: #0f172a;
+            color: #64748b;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links, .cta-buttons {
+                display: none;
+            }
+            
+            .showcase-content {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <div class="logo-icon">
+                    <div class="atom">
+                        <div class="orbit"></div>
+                        <div class="orbit"></div>
+                        <div class="orbit"></div>
+                        <div class="electron"></div>
+                        <div class="electron"></div>
+                        <div class="electron"></div>
+                        <div class="nucleus"></div>
+                    </div>
+                </div>
+                Nucleus
+            </div>
+            <div class="nav-links">
+                <a href="#">Features</a>
+                <a href="#">Solutions</a>
+                <a href="#">Pricing</a>
+                <a href="#">Resources</a>
+            </div>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-outline">Log in</a>
+                <a href="#" class="btn btn-primary">Try for free</a>
+            </div>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>One platform to run everything</h1>
+            <p>Nucleus brings all your tasks, projects, docs, and communication together so teams can work faster and smarter in one place.</p>
+            <a href="#" class="btn btn-primary">Get started for free</a>
+        </div>
+    </section>
+    
+    <section class="features">
+        <div class="section-title">
+            <h2>Everything you need, all in one place</h2>
+            <p>Replace your disconnected tools with one solution that brings everything together.</p>
+        </div>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon tasks">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                    </svg>
+                </div>
+                <h3>Tasks & Projects</h3>
+                <p>Plan, track, and manage any type of work with customizable workflows that fit your needs. Assign tasks, set priorities, and track progress in real-time.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon ai">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <h3>AI Assistant</h3>
+                <p>Let our AI help you write better content, summarize notes, suggest improvements, and automate repetitive tasks to save you valuable time.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon chat">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                </div>
+                <h3>Team Chat</h3>
+                <p>Communicate seamlessly with instant messaging, threaded discussions, file sharing, and integrated video calls without switching between apps.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon sprints">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <h3>Sprints & Agile</h3>
+                <p>Plan sprints, manage backlogs, and visualize your work with customizable Kanban boards, Scrum, or any agile workflow your team prefers.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon time">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3>Time Tracking</h3>
+                <p>Track time spent on tasks, generate reports, and analyze productivity. Perfect for billing clients, measuring team capacity, and optimizing workflows.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon docs">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+                <h3>Docs & Wikis</h3>
+                <p>Create, share and collaborate on documents in real-time. Build a knowledge base with wiki pages that connect directly to your projects and tasks.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="showcase">
+        <div class="showcase-content">
+            <div class="showcase-text">
+                <h2>Everything connected in one unified workspace</h2>
+                <p>Stop jumping between tools and losing critical information. Nucleus creates connections between your tasks, documents, projects, and team communication to keep everything in context.</p>
+                <a href="#" class="btn btn-outline">See how it works</a>
+            </div>
+            <div class="showcase-img">
+                <img src="/api/placeholder/600/400" alt="Nucleus dashboard showing connected workspace features">
+            </div>
+        </div>
+    </section>
+    
+    <section class="integrations">
+        <div class="integrations-content">
+            <div class="section-title">
+                <h2>Seamlessly connect with your favorite tools</h2>
+                <p>Nucleus integrates with over 100+ applications to create a unified workflow experience.</p>
+            </div>
+            
+            <div class="integration-logos">
+                <div class="integration-logo">Slack</div>
+                <div class="integration-logo">Google</div>
+                <div class="integration-logo">Zoom</div>
+                <div class="integration-logo">GitHub</div>
+                <div class="integration-logo">Figma</div>
+                <div class="integration-logo">Dropbox</div>
+                <div class="integration-logo">Zapier</div>
+                <div class="integration-logo">Microsoft</div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="pricing">
+        <div class="section-title">
+            <h2>Simple, transparent pricing</h2>
+            <p>Choose the plan that fits your team's needs</p>
+        </div>
+        
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Free</h3>
+                <div class="price">$0 <span>/ month</span></div>
+                <ul class="pricing-features">
+                    <li>Up to 5 team members</li>
+                    <li>Unlimited tasks</li>
+                    <li>Basic project views</li>
+                    <li>100MB storage</li>
+                    <li>Time tracking basics</li>
+                    <li>Limited chat features</li>
+                </ul>
+                <a href="#" class="btn btn-outline">Start for free</a>
+            </div>
+            
+            <div class="pricing-card popular">
+                <div class="popular-tag">Most Popular</div>
+                <h3>Business</h3>
+                <div class="price">$12 <span>/ user / month</span></div>
+                <ul class="pricing-features">
+                    <li>Unlimited team members</li>
+                    <li>Advanced project management</li>
+                    <li>All project views</li>
+                    <li>5GB storage per user</li>
+                    <li>Full time tracking & reports</li>
+                    <li>Complete chat & video calls</li>
+                    <li>Custom fields & automations</li>
+                    <li>Team goals & OKRs</li>
+                </ul>
+                <a href="#" class="btn btn-primary">Get started</a>
+            </div>
+            
+            <div class="pricing-card">
+                <h3>Enterprise</h3>
+                <div class="price">Custom <span>pricing</span></div>
+                <ul class="pricing-features">
+                    <li>Everything in Business plan</li>
+                    <li>Dedicated account manager</li>
+                    <li>Advanced security & SSO</li>
+                    <li>Unlimited storage</li>
+                    <li>API access</li>
+                    <li>Custom integrations</li>
+                    <li>24/7 priority support</li>
+                    <li>SLA guarantees</li>
+                </ul>
+                <a href="#" class="btn btn-outline">Contact sales</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="testimonials">
+        <div class="testimonials-content">
+            <div class="section-title">
+                <h2>Trusted by teams worldwide</h2>
+                <p>See how teams like yours are achieving more with Nucleus</p>
+            </div>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "Nucleus has transformed how our remote team works together. Having everything in one place has cut down on meeting time by 30% and increased our productivity dramatically."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">JS</div>
+                        <div class="testimonial-info">
+                            <h4>Jennifer Smith</h4>
+                            <p>Product Manager, TechStartup Inc.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "We were using 6 different tools before switching to Nucleus. Now everything is connected and our teams can focus on creating value instead of managing tools."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">RM</div>
+                        <div class="testimonial-info">
+                            <h4>Robert Mills</h4>
+                            <p>CTO, Growth Enterprises</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "The time tracking and reporting features alone saved us thousands in billable hours that were previously falling through the cracks. The ROI was immediate."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AS</div>
+                        <div class="testimonial-info">
+                            <h4>Aisha Patel</h4>
+                            <p>Agency Director, Creative Solutions</p>
+                        </div>
