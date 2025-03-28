@@ -387,7 +387,7 @@
                     <ul>
                         <li><a href="#">Documentation</a></li>
                         <li><a href="#">Guides</a></li>
-                        <li><a href="#">Support</a></li>
+                        <li><a href="contact.html">Support</a></li>
                     </ul>
                 </div>
                 
@@ -402,5 +402,86 @@
             </div>
         </div>
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Find any forms on the page
+    const forms = document.querySelectorAll('form');
+    
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = new FormData(form);
+            const formValues = {};
+            for (let [key, value] of formData.entries()) {
+                formValues[key] = value;
+            }
+            
+            // Store in localStorage (simulating database)
+            if (form.id === 'register-form') {
+                // Store user registration data
+                localStorage.setItem('userData', JSON.stringify(formValues));
+                alert('Account created successfully!');
+                window.location.href = 'login.html';
+            } 
+            else if (form.id === 'login-form') {
+                // Check login against stored data
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                if (formValues.email === userData.email && formValues.password === userData.password) {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    window.location.href = 'homepage.html';
+                } else {
+                    alert('Invalid login credentials');
+                }
+            }
+            else if (form.id === 'contact-form') {
+                // Store contact submission
+                const contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
+                contacts.push(formValues);
+                localStorage.setItem('contacts', JSON.stringify(contacts));
+                alert('Thanks for your message! We\'ll get back to you soon.');
+                form.reset();
+            }
+            else if (form.id === 'checkout-form') {
+                // Process checkout
+                alert('Payment processed successfully!');
+                window.location.href = 'homepage.html';
+            }
+        });
+    });
+    
+    // Check if user is logged in
+    const checkLoginStatus = () => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const loginButtons = document.querySelectorAll('.login-btn');
+        const logoutButtons = document.querySelectorAll('.logout-btn');
+        const profileLinks = document.querySelectorAll('.profile-link');
+        
+        if (isLoggedIn) {
+            loginButtons.forEach(btn => btn.style.display = 'none');
+            logoutButtons.forEach(btn => btn.style.display = 'inline-block');
+            profileLinks.forEach(link => link.style.display = 'inline-block');
+        } else {
+            loginButtons.forEach(btn => btn.style.display = 'inline-block');
+            logoutButtons.forEach(btn => btn.style.display = 'none');
+            profileLinks.forEach(link => link.style.display = 'none');
+        }
+    };
+    
+    // Add logout functionality
+    const logoutButtons = document.querySelectorAll('.logout-btn');
+    logoutButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('isLoggedIn');
+            window.location.href = 'homepage.html';
+        });
+    });
+    
+    // Check login status when page loads
+    checkLoginStatus();
+});
+    </script>
 </body>
 </html>
